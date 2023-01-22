@@ -1,23 +1,19 @@
 package com.klid.generatestoresalesdatatool
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
+import java.util.concurrent.CompletableFuture
 
 /**
  * @author Ivan Kaptue
  */
 @Component
-class AppEntryPointRunner : CommandLineRunner {
-
-    companion object {
-        private val logger: Logger = LoggerFactory.getLogger(AppEntryPointRunner::class.java)
-    }
+class AppEntryPointRunner(private val generator: GenerateStoreData) : CommandLineRunner {
 
     override fun run(vararg args: String?) {
-        for(i in 0..10) {
-            logger.info("Display index $i")
-        }
+        val task1 = CompletableFuture.supplyAsync { generator.generateFile(Pair("MAXI", 5000)) }
+        val task2 = CompletableFuture.supplyAsync { generator.generateFile(Pair("METRO", 11000)) }
+
+        CompletableFuture.allOf(task1, task2).join()
     }
 }
