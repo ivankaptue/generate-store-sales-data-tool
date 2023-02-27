@@ -7,6 +7,8 @@ import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 import java.math.BigDecimal
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 /**
  * @author Ivan Kaptue
@@ -18,6 +20,7 @@ class GenerateStoreData(private val faker: Faker) {
         private val logger = LoggerFactory.getLogger(GenerateStoreData::class.java)
         private const val SEPARATOR = ","
         private const val GENERATED_DIR = "src/main/resources/generated/"
+        private val DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd")
     }
 
     /**
@@ -52,7 +55,8 @@ class GenerateStoreData(private val faker: Faker) {
     }
 
     private fun writeContentToFile(params: Pair<String, Int>, content: StringBuilder) {
-        val fileName = "${params.first}${System.currentTimeMillis()}.csv".uppercase()
+        val now = LocalDate.now()
+        val fileName = "${params.first.uppercase()}${DATE_FORMATTER.format(now)}.csv"
 
         logger.info("Start write generated data to file : $fileName, params: $params")
 

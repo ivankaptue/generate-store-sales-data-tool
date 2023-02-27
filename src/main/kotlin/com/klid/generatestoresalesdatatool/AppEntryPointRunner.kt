@@ -11,8 +11,8 @@ import java.util.concurrent.CompletableFuture
 class AppEntryPointRunner(private val generator: GenerateStoreData) : CommandLineRunner {
 
     override fun run(vararg args: String?) {
-        val task1 = CompletableFuture.supplyAsync { generator.generateFile(Pair("MAXI", 5000)) }
-        val task2 = CompletableFuture.supplyAsync { generator.generateFile(Pair("METRO", 11000)) }
+        val task1 = CompletableFuture.supplyAsync { generator.generateFile(Pair("MAXI", 9)) }
+        val task2 = CompletableFuture.supplyAsync { generator.generateFile(Pair("METRO", 12)) }
 
         CompletableFuture.allOf(task1, task2).join()
     }
